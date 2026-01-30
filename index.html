@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>H-FAMILY Minecraft</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Segoe UI,Arial;
+  background:radial-gradient(circle at top,#020617,#000);
+  color:#e5e7eb;
+}
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:60px 20px;
+  text-align:center;
+}
+h1{
+  font-size:3.2rem;
+  color:#22c55e;
+  animation:fadeDown 1s ease;
+}
+.subtitle{
+  color:#9ca3af;
+  margin-bottom:40px;
+  animation:fadeDown 1.3s ease;
+}
+.card{
+  background:#020617;
+  border:1px solid #1e293b;
+  border-radius:22px;
+  padding:30px;
+  box-shadow:0 0 40px rgba(0,0,0,.7);
+  animation:fadeUp 1.2s ease;
+}
+.server-img{
+  width:100%;
+  max-width:600px;
+  border-radius:16px;
+  margin-bottom:20px;
+}
+.ip-box{
+  margin:15px auto;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:#020617;
+  border:1px dashed #22c55e;
+  padding:12px 18px;
+  border-radius:14px;
+  font-size:1.1rem;
+  color:#22c55e;
+}
+button{
+  border:none;
+  cursor:pointer;
+}
+.copy-btn{
+  background:#22c55e;
+  color:#022c22;
+  padding:8px 12px;
+  border-radius:8px;
+  font-weight:bold;
+}
+.status{
+  margin:15px 0;
+  font-weight:bold;
+}
+.players{
+  color:#a7f3d0;
+}
+.buttons{
+  margin-top:25px;
+}
+.btn{
+  display:inline-block;
+  padding:14px 26px;
+  margin:8px;
+  border-radius:14px;
+  text-decoration:none;
+  font-weight:bold;
+  transition:.3s;
+}
+.discord{
+  background:#5865F2;
+  color:white;
+}
+.discord:hover{transform:scale(1.05)}
+.connect{
+  background:#22c55e;
+  color:#022c22;
+}
+.connect:hover{transform:scale(1.05)}
+footer{
+  margin-top:60px;
+  color:#64748b;
+  font-size:.9rem;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes fadeDown{
+  from{opacity:0;transform:translateY(-20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>🔥 H-FAMILY MINECRAFT 🔥</h1>
+  <p class="subtitle">Serveur Forge • Mods • Communauté</p>
+
+  <div class="card">
+    <img class="server-img" src="https://i.imgur.com/Ym6JqzC.jpeg" alt="H-Family">
+
+    <div class="ip-box">
+      <span id="ip">h-family.ddns.net:25565</span>
+      <button class="copy-btn" onclick="copyIP()">COPY</button>
+    </div>
+
+    <div class="status" id="status">Chargement du status...</div>
+    <div class="players" id="players"></div>
+
+    <div class="buttons">
+      <a class="btn connect" href="minecraft://?addExternalServer=H-FAMILY|h-family.ddns.net:25565">
+        🎮 Connect
+      </a>
+      <a class="btn discord" href="https://discord.gg/jD6S2X6B" target="_blank">
+        💬 Discord
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 H-Family • Non affilié à Mojang
+  </footer>
+</div>
+
+<script>
+function copyIP(){
+  navigator.clipboard.writeText("h-family.ddns.net:25565");
+  alert("IP copiée !");
+}
+
+// Fetch server status
+fetch("https://api.mcsrvstat.us/2/h-family.ddns.net:25565")
+.then(res=>res.json())
+.then(data=>{
+  if(data.online){
+    document.getElementById("status").innerHTML="🟢 SERVEUR ONLINE";
+    document.getElementById("players").innerHTML="👥 Joueurs: "+data.players.online+" / "+data.players.max;
+  }else{
+    document.getElementById("status").innerHTML="🔴 SERVEUR OFFLINE";
+  }
+})
+.catch(()=>{
+  document.getElementById("status").innerHTML="⚠️ Impossible de récupérer le status";
+});
+</script>
+</body>
+</html>
