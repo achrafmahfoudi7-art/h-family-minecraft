@@ -2,196 +2,207 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>H-FAMILY Minecraft Interactive</title>
+<title>H-FAMILY Minecraft</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-body, html {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  height: 100%;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(120deg, #020617, #0a0f25);
-  color: #e5e7eb;
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+    font-family:Segoe UI,Arial;
+    color:#e5e7eb;
+    background:url('https://i.postimg.cc/D47bn4S1/background.jpg') no-repeat center center fixed;
+    background-size:cover;
+    overflow-x:hidden;
+    position:relative;
 }
 
-#particles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:60px 20px;
+    text-align:center;
+    position:relative;
+    z-index:2;
 }
 
-.container {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-  top: 50%;
-  transform: translateY(-50%);
+h1{
+    font-size:3.2rem;
+    color:#22c55e;
+    animation:fadeDown 1s ease;
+    text-shadow: 0 0 15px #22c55e;
 }
 
-h1 {
-  font-size: 3.2rem;
-  color: #22c55e;
-  margin-bottom: 20px;
+.subtitle{
+    color:#9ca3af;
+    margin-bottom:40px;
+    animation:fadeDown 1.3s ease;
 }
-.subtitle {
-  color: #9ca3af;
-  margin-bottom: 40px;
+
+.card{
+    background: rgba(2,6,23,0.85);
+    border:1px solid #1e293b;
+    border-radius:22px;
+    padding:30px;
+    box-shadow:0 0 40px rgba(0,0,0,.7), 0 0 20px #22c55e inset;
+    animation:fadeUp 1.2s ease;
 }
-.btn {
-  display: inline-block;
-  padding: 14px 26px;
-  margin: 8px;
-  border-radius: 14px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: .3s;
+
+.server-img{
+    width:100%;
+    max-width:600px;
+    border-radius:16px;
+    margin-bottom:20px;
+    box-shadow:0 0 15px #22c55e;
 }
-.connect {
-  background: #22c55e;
-  color: #022c22;
+
+.ip-box{
+    margin:15px auto;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:#020617;
+    border:1px dashed #22c55e;
+    padding:12px 18px;
+    border-radius:14px;
+    font-size:1.1rem;
+    color:#22c55e;
 }
-.connect:hover {transform: scale(1.05);}
-.discord {
-  background: #5865F2;
-  color: white;
+
+button{
+    border:none;
+    cursor:pointer;
 }
-.discord:hover {transform: scale(1.05);}
-.ip-box {
-  margin: 15px auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: #020617;
-  border: 1px dashed #22c55e;
-  padding: 12px 18px;
-  border-radius: 14px;
-  font-size: 1.1rem;
-  color: #22c55e;
+
+.copy-btn{
+    background:#22c55e;
+    color:#022c22;
+    padding:8px 12px;
+    border-radius:8px;
+    font-weight:bold;
+    transition:.3s;
 }
-.copy-btn {
-  background: #22c55e;
-  color: #022c22;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
+.copy-btn:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 10px #22c55e;
 }
-.status {font-weight: bold; margin: 10px 0;}
-.players {color: #a7f3d0;}
-audio {display: none;}
+
+.status{margin:15px 0;font-weight:bold;}
+.players{color:#a7f3d0;}
+
+.buttons{margin-top:25px;}
+.btn{
+    display:inline-block;
+    padding:14px 26px;
+    margin:8px;
+    border-radius:14px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:.3s;
+}
+.discord{
+    background:#5865F2;color:white;
+}
+.discord:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 10px #5865F2;
+}
+.connect{
+    background: linear-gradient(45deg,#22c55e,#16a34a);
+    color:#022c22;
+}
+.connect:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 10px #22c55e;
+}
+
+footer{
+    margin-top:60px;
+    color:#64748b;
+    font-size:.9rem;
+}
+
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px);}
+    to{opacity:1;transform:translateY(0);}
+}
+@keyframes fadeDown{
+    from{opacity:0;transform:translateY(-20px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+/* Particules Minecraft */
+.particle{
+    position:absolute;
+    width:8px;
+    height:8px;
+    background:#22c55e;
+    top:0;
+    animation:fall 5s linear infinite;
+    opacity:0.7;
+    z-index:1;
+}
+@keyframes fall{
+    0%{transform:translateY(0) translateX(0);}
+    100%{transform:translateY(100vh) translateX(30px);}
+}
 </style>
 </head>
-
 <body>
-<canvas id="particles"></canvas>
-<audio id="music" autoplay loop>
-  <source src="https://archive.org/download/Minecraft_Theme/Minecraft_Theme.mp3" type="audio/mpeg">
-</audio>
 
 <div class="container">
-  <h1>🔥 H-FAMILY MINECRAFT 🔥</h1>
-  <p class="subtitle">Serveur Forge • Mods • Communauté</p>
-
-  <div class="ip-box">
-    <span id="ip">h-family.ddns.net:25565</span>
-    <button class="copy-btn" onclick="copyIP()">COPY</button>
-  </div>
-  <div class="status" id="status">Chargement du status...</div>
-  <div class="players" id="players"></div>
-
-  <div class="buttons">
-    <a class="btn connect" href="minecraft://?addExternalServer=H-FAMILY|h-family.ddns.net:25565">🎮 Connect</a>
-    <a class="btn discord" href="https://discord.gg/jD6S2X6B" target="_blank">💬 Discord</a>
-  </div>
+<h1>🔥 H-FAMILY MINECRAFT 🔥</h1>
+<p class="subtitle">Serveur Forge • Mods • Communauté</p>
+<div class="card">
+<img class="server-img" src="https://i.imgur.com/Ym6JqzC.jpeg" alt="H-Family">
+<div class="ip-box">
+<span id="ip">h-family.ddns.net:25565</span>
+<button class="copy-btn" onclick="copyIP()">COPY</button>
+</div>
+<div class="status" id="status">Chargement du status...</div>
+<div class="players" id="players"></div>
+<div class="buttons">
+<a class="btn connect" href="minecraft://?addExternalServer=H-FAMILY|h-family.ddns.net:25565"> 🎮 Connect </a>
+<a class="btn discord" href="https://discord.gg/jD6S2X6B" target="_blank"> 💬 Discord </a>
+</div>
+</div>
+<footer>© 2026 H-Family • Non affilié à Mojang</footer>
 </div>
 
+<!-- Particules -->
 <script>
-// Particle effect stronger and more visible
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-let particles = [];
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const status = document.getElementById("status");
+const players = document.getElementById("players");
 
-window.addEventListener('resize', ()=>{
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-
-function createParticle(x, y) {
-  particles.push({
-    x: x,
-    y: y,
-    size: Math.random() * 8 + 3,
-    speedX: (Math.random() - 0.5) * 4,
-    speedY: (Math.random() - 0.5) * 4,
-    color: ['#22c55e','#a7f3d0','#ffffff'][Math.floor(Math.random()*3)]
-  });
-}
-
-function updateParticles() {
-  for (let i = 0; i < particles.length; i++) {
-    let p = particles[i];
-    p.x += p.speedX;
-    p.y += p.speedY;
-    p.size *= 0.95;
-    if (p.size < 0.5) {
-      particles.splice(i, 1);
-      i--;
-    }
-  }
-}
-
-function drawParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (let p of particles) {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-    ctx.fillStyle = p.color;
-    ctx.shadowColor = p.color;
-    ctx.shadowBlur = 10;
-    ctx.fill();
-  }
-}
-
-canvas.addEventListener('mousemove', (e)=>{
-  for(let i=0;i<5;i++) createParticle(e.clientX, e.clientY);
-});
-
-function animate() {
-  updateParticles();
-  drawParticles();
-  requestAnimationFrame(animate);
-}
-animate();
-
-// IP copy function
 function copyIP(){
-  navigator.clipboard.writeText("h-family.ddns.net:25565");
-  alert("IP copiée !");
+    navigator.clipboard.writeText("h-family.ddns.net:25565");
+    const ipBox = document.querySelector(".ip-box");
+    const msg = document.createElement("span");
+    msg.textContent = "IP copiée !";
+    msg.style.marginLeft = "10px";
+    msg.style.color = "#22c55e";
+    ipBox.appendChild(msg);
+    setTimeout(()=>msg.remove(),2000);
 }
 
-// Fetch server status
 fetch("https://api.mcsrvstat.us/2/h-family.ddns.net:25565")
 .then(res=>res.json())
 .then(data=>{
-  if(data.online){
-    document.getElementById("status").innerHTML="🟢 SERVEUR ONLINE";
-    document.getElementById("players").innerHTML="👥 Joueurs: "+data.players.online+" / "+data.players.max;
-  } else {
-    document.getElementById("status").innerHTML="🔴 SERVEUR OFFLINE";
-  }
+    if(data.online){
+        status.textContent="🟢 SERVEUR ONLINE";
+        players.textContent="👥 Joueurs: "+data.players.online+" / "+data.players.max;
+    }else{
+        status.textContent="🔴 SERVEUR OFFLINE";
+    }
 })
-.catch(()=>{
-  document.getElementById("status").innerHTML="⚠️ Impossible de récupérer le status";
-});
-</script>
+.catch(()=>{status.textContent="⚠️ Impossible de récupérer le status";});
 
+// Générer particules
+for(let i=0;i<30;i++){
+    const p = document.createElement("div");
+    p.classList.add("particle");
+    p.style.left = Math.random()*100+"%";
+    p.style.animationDelay = Math.random()*5+"s";
+    document.body.appendChild(p);
+}
+</script>
 </body>
 </html>
