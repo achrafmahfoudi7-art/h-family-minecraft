@@ -101,19 +101,21 @@ function copyIPAlert(){
     alert("IP copiée !\nSi Minecraft ma tfathch automatiquement, Open Minecraft → Multiplayer → Add Server → Paste l'IP → Connect.");
 }
 
-// Status serveur
+// Status serveur avec fallback
 fetch("https://api.mcsrvstat.us/2/h-family.ddns.net:25565")
-.then(res=>res.json())
-.then(data=>{
-    if(data.online){
+.then(res => res.json())
+.then(data => {
+    if(data && data.online){
         status.innerHTML="🟢 SERVEUR ONLINE";
         players.innerHTML="👥 Joueurs: "+data.players.online+" / "+data.players.max;
-    }else{
-        status.innerHTML="🔴 SERVEUR OFFLINE";
+    } else {
+        status.innerHTML="🔴 SERVEUR OFFLINE ou non disponible";
+        players.innerHTML="";
     }
 })
 .catch(()=>{
-    status.innerHTML="⚠️ Impossible de récupérer le status";
+    status.innerHTML="⚠️ Impossible de récupérer le status (API ou CORS)";
+    players.innerHTML="";
 });
 
 // Particles li kattb3 mouse
