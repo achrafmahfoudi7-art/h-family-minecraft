@@ -77,8 +77,8 @@ footer{ margin-top:60px; color:#64748b; font-size:.9rem; }
 <div class="status" id="status">Chargement du status...</div>
 <div class="players" id="players"></div>
 <div class="buttons">
-    <!-- Bouton Connect modifié: katcopy IP + alert -->
-    <button class="btn connect" onclick="connectMinecraft()"> 🎮 Connect </button>
+    <!-- Connect button -->
+    <a class="btn connect" href="minecraft://?addExternalServer=H-FAMILY|h-family.ddns.net:25565" onclick="copyIPAlert()"> 🎮 Connect </a>
     <a class="btn discord" href="https://discord.gg/jD6S2X6B" target="_blank"> 💬 Discord </a>
 </div>
 </div>
@@ -95,14 +95,10 @@ function copyIP(){
     alert("IP copiée !");
 }
 
-// Bouton Connect
-function connectMinecraft(){
-    // Copie IP automatiquement
+// Connect button alert + copy IP fallback
+function copyIPAlert(){
     navigator.clipboard.writeText("h-family.ddns.net:25565");
-    // Alert pour expliquer user
-    alert("IP copiée !\nBghiti dkhl Minecraft → Multiplayer → Add Server → Paste l'IP w Connect.");
-    // Optional: essaye ouvrir Minecraft (ma garanti, browser security)
-    window.location.href = "minecraft://?addExternalServer=H-FAMILY|h-family.ddns.net:25565";
+    alert("IP copiée !\nSi Minecraft ma tfathch automatiquement, Open Minecraft → Multiplayer → Add Server → Paste l'IP → Connect.");
 }
 
 // Status serveur
@@ -120,7 +116,7 @@ fetch("https://api.mcsrvstat.us/2/h-family.ddns.net:25565")
     status.innerHTML="⚠️ Impossible de récupérer le status";
 });
 
-// Particles qui suivent la souris
+// Particles li kattb3 mouse
 const colors = ["#22c55e","#a7f3d0","#facc15"];
 document.addEventListener("mousemove", e=>{
     const particle = document.createElement("div");
