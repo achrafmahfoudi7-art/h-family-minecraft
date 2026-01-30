@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>H-FAMILY Minecraft Interactive</title>
+<title>H-FAMILY Minecraft Homepage</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -12,11 +12,8 @@ body, html {
   overflow: hidden;
   height: 100%;
   font-family: 'Segoe UI', Arial, sans-serif;
-}
-
-body {
-  background: url('https://i.imgur.com/2VWOmNP.jpeg') no-repeat center center fixed;
-  background-size: cover;
+  background: #020617;
+  color: #e5e7eb;
 }
 
 #particles {
@@ -28,19 +25,94 @@ body {
   pointer-events: none;
 }
 
-audio {
-  display: none;
+.container {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
 }
+
+h1 {
+  font-size: 3.2rem;
+  color: #22c55e;
+  margin-bottom: 20px;
+}
+.subtitle {
+  color: #9ca3af;
+  margin-bottom: 40px;
+}
+.btn {
+  display: inline-block;
+  padding: 14px 26px;
+  margin: 8px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: .3s;
+}
+.connect {
+  background: #22c55e;
+  color: #022c22;
+}
+.connect:hover {transform: scale(1.05);}
+.discord {
+  background: #5865F2;
+  color: white;
+}
+.discord:hover {transform: scale(1.05);}
+.ip-box {
+  margin: 15px auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #020617;
+  border: 1px dashed #22c55e;
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-size: 1.1rem;
+  color: #22c55e;
+}
+.copy-btn {
+  background: #22c55e;
+  color: #022c22;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+.status {font-weight: bold; margin: 10px 0;}
+.players {color: #a7f3d0;}
+audio {display: none;}
 </style>
 </head>
-<body>
 
+<body>
 <canvas id="particles"></canvas>
 <audio id="music" autoplay loop>
   <source src="https://archive.org/download/Minecraft_Theme/Minecraft_Theme.mp3" type="audio/mpeg">
 </audio>
 
+<div class="container">
+  <h1>🔥 H-FAMILY MINECRAFT 🔥</h1>
+  <p class="subtitle">Serveur Forge • Mods • Communauté</p>
+
+  <div class="ip-box">
+    <span id="ip">h-family.ddns.net:25565</span>
+    <button class="copy-btn" onclick="copyIP()">COPY</button>
+  </div>
+  <div class="status" id="status">Chargement du status...</div>
+  <div class="players" id="players"></div>
+
+  <div class="buttons">
+    <a class="btn connect" href="minecraft://?addExternalServer=H-FAMILY|h-family.ddns.net:25565">🎮 Connect</a>
+    <a class="btn discord" href="https://discord.gg/jD6S2X6B" target="_blank">💬 Discord</a>
+  </div>
+</div>
+
 <script>
+// Particle effect
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
 let particles = [];
@@ -87,7 +159,7 @@ function drawParticles() {
 }
 
 canvas.addEventListener('mousemove', (e)=>{
-  for(let i=0;i<3;i++) createParticle(e.clientX, e.clientY);
+  for(let i=0;i<4;i++) createParticle(e.clientX, e.clientY);
 });
 
 function animate() {
@@ -96,6 +168,28 @@ function animate() {
   requestAnimationFrame(animate);
 }
 animate();
+
+// IP copy function
+function copyIP(){
+  navigator.clipboard.writeText("h-family.ddns.net:25565");
+  alert("IP copiée !");
+}
+
+// Fetch server status
+fetch("https://api.mcsrvstat.us/2/h-family.ddns.net:25565")
+.then(res=>res.json())
+.then(data=>{
+  if(data.online){
+    document.getElementById("status").innerHTML="🟢 SERVEUR ONLINE";
+    document.getElementById("players").innerHTML="👥 Joueurs: "+data.players.online+" / "+data.players.max;
+  } else {
+    document.getElementById("status").innerHTML="🔴 SERVEUR OFFLINE";
+  }
+})
+.catch(()=>{
+  document.getElementById("status").innerHTML="⚠️ Impossible de récupérer le status";
+});
 </script>
+
 </body>
 </html>
